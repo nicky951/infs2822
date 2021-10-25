@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Simple Map</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css" />
+		<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="node_modules/select2/dist/css/select2.min.css" />
+		<link rel="stylesheet" href="node_modules/@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" />
+		<link rel="stylesheet" href="styles.css" />
+		<script src="node_modules/leaflet/dist/leaflet.js"></script>
+		<script src="node_modules/underscore/underscore-min.js"></script>
+		<script src="node_modules/jquery/dist/jquery.min.js"></script>
+		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="node_modules/select2/dist/js/select2.min.js"></script>
+		<script src="node_modules/papaparse/papaparse.min.js"></script>
+		<script src="logic.010.MapTileHelper.js"></script>
+		<script src="logic.050.MapHelper.js"></script>
+		<script src="logic.070.NavbarHelper.js"></script>
+		<script src="logic.080.ColourHelper.js"></script>
+		<script src="logic.090.ShowtimeHelper.js"></script>
+		<script src="logic.js"></script>
+	</head>
+	<body onload="bodyDidLoad()">
+		<nav id="mynavbar" class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="#">Australia Map</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Theme
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a id="togglefor_CartoDB_Positron" class="dropdown-item" href="#" onclick="NavbarHelper.changeMapTiles('CartoDB_Positron')">light</a>
+							<a id="togglefor_CartoDB_DarkMatter" class="dropdown-item" href="#" onclick="NavbarHelper.changeMapTiles('CartoDB_DarkMatter')">dark</a>
+							<a id="togglefor_OpenStreetMap_Mapnik" class="dropdown-item" href="#" onclick="NavbarHelper.changeMapTiles('OpenStreetMap_Mapnik')">OpenStreetMap</a>
+							<a id="togglefor_Stamen_Terrain" class="dropdown-item" href="#" onclick="NavbarHelper.changeMapTiles('Stamen_Terrain')">StamenTerrain</a>
+							<a id="togglefor_Stamen_TonerLite" class="dropdown-item" href="#" onclick="NavbarHelper.changeMapTiles('Stamen_TonerLite')">StamenTonerLite</a>
+						</div>
+					</li>
+				</ul>
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item dropdown">
+						<a id="stat_menu_title" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Choropleth Statistic
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a id="togglefor_Tot_P_P" class="dropdown-item" href="#" onclick="NavbarHelper.changeStat('Tot_P_P')">Total population</a>
+							<a id="togglefor_STEM_Pct" class="dropdown-item" href="#" onclick="NavbarHelper.changeStat('STEM_Pct')">Proportion of qualifications in STEM</a>
+							<a id="togglefor_Wkly_Hhd_Inc" class="dropdown-item" href="#" onclick="NavbarHelper.changeStat('Wkly_Hhd_Inc')">Median weekly household income</a>
+							<a id="togglefor_Y12_Comp_Pct" class="dropdown-item" href="#" onclick="NavbarHelper.changeStat('Y12_Comp_Pct')">Year 12 completion rate</a>
+							<a id="togglefor_Secondary_Tot_P" class="dropdown-item" href="#" onclick="NavbarHelper.changeStat('Secondary_Tot_P')">Number of people in secondary education</a>
+							<a id="togglefor_Secondary_Pct" class="dropdown-item" href="#" onclick="NavbarHelper.changeStat('Secondary_Pct')">Proportion of people in secondary education</a>
+							<a id="togglefor_Tec_Furt_Educ_inst_Tot_P" class="dropdown-item" href="#" onclick="NavbarHelper.changeStat('Tec_Furt_Educ_inst_Tot_P')">Number of people in TAFE education</a>
+							<a id="togglefor_TAFE_Pct" class="dropdown-item" href="#" onclick="NavbarHelper.changeStat('TAFE_Pct')">Proportion of people in TAFE education</a>
+							<a id="togglefor_Uni_other_Tert_Instit_Tot_P" class="dropdown-item" href="#" onclick="NavbarHelper.changeStat('Uni_other_Tert_Instit_Tot_P')">Number of people at Uni or other tertiary education</a>
+							<a id="togglefor_Uni_Pct" class="dropdown-item" href="#" onclick="NavbarHelper.changeStat('Uni_Pct')">Proportion of people at Uni or other tertiary education</a>
+							<a id="togglefor_Indigenous_Pct" class="dropdown-item" href="#" onclick="NavbarHelper.changeStat('Indigenous_Pct')">Proportion of people identifying as Aboriginal/Torres Strait Islander</a>
+						</div>
+					</li>
+				</ul>
+				<form class="form-inline my-2 my-lg-0">
+					<select id="selectPlace" onchange="NavbarHelper.selectionDidChange()" name="selectPlace">
+						<option value="-1">(Search Postcode...)</option>
+					</select>
+				</form>
+			</div>
+		</nav>
+		<div id="mapid"></div>
+	</body>
+</html>

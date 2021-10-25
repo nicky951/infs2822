@@ -1,0 +1,6 @@
+body {
+    margin: 0;
+}
+#navbar { height: 56px; }
+#mapid { height: calc(100vh - 56px); }
+#stat_menu_title { font-weight: bold;}
